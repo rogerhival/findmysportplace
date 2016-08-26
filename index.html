@@ -50,7 +50,7 @@
 	<!-- Personal js -->
 	<script src="scripts/home.js"></script>
 
-	<script src='https://maps.googleapis.com/maps/api/js'></script>
+	<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDlQpdRR_0vBWk-XAff2hDU8HTApgQ0R-A'></script>
 
 	<base href="/">
 </head>
@@ -113,35 +113,35 @@
 
 	<script type='text/javascript'>
 
-		function getLocation()
-		{
-			if (navigator.geolocation)
-			{
-				navigator.geolocation.getCurrentPosition(showPosition);
-			}
-			else{
-				x.innerHTML="Geolocalização não é suportada nesse browser.";
-			}
-		}
+		// function getLocation()
+		// {
+		// 	if (navigator.geolocation)
+		// 	{
+		// 		navigator.geolocation.getCurrentPosition(showPosition);
+		// 	}
+		// 	else{
+		// 		x.innerHTML="Geolocalização não é suportada nesse browser.";
+		// 	}
+		// }
 
 
-		function showPosition(position) {
+		// function showPosition(position) {
 
-			lat=position.coords.latitude;
-			lon=position.coords.longitude;
-			latlon=new google.maps.LatLng(lat, lon)
+		// 	lat=position.coords.latitude;
+		// 	lon=position.coords.longitude;
+		// 	latlon=new google.maps.LatLng(lat, lon);
 
-			  var myOptions={
-			  	center:latlon,zoom:14,
-			  	mapTypeId:google.maps.MapTypeId.ROADMAP,
-			  	mapTypeControl:false,
-			  	navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
-			  };
-			  var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
-			  var marker=new google.maps.Marker({position:latlon,map:map,title:"Você está Aqui!"});
-			}
+		// 	  var myOptions={
+		// 	  	center:latlon,zoom:14,
+		// 	  	mapTypeId:google.maps.MapTypeId.ROADMAP,
+		// 	  	mapTypeControl:false,
+		// 	  	navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+		// 	  };
+		// 	  var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
+		// 	  var marker=new google.maps.Marker({position:latlon,map:map,title:"Você está Aqui!"});
+		// 	}
 
-		getLocation();
+		//getLocation();
 		</script>
 	</body>
 	</html>
