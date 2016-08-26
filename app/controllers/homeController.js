@@ -12,6 +12,7 @@ app.controller('homeController', function($scope, $http, util){
 	};
 
 	$scope.map = {};
+	var infowindow;
 
 	function showPosition(position) {
 		$scope.model.lat = position.coords.latitude;
@@ -26,8 +27,10 @@ app.controller('homeController', function($scope, $http, util){
 			navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
 		};
 
-		var map = new google.maps.Map(document.getElementById("mapholder"),myOptions);
-		var marker=new google.maps.Marker({position:$scope.model.latlon,map:map,title:"Você está Aqui!"});
+		infowindow = new google.maps.InfoWindow();
+
+		$scope.map = new google.maps.Map(document.getElementById("mapholder"),myOptions);
+		//var marker=new google.maps.Marker({position:$scope.model.latlon,map:$scope.map,title:"Você está Aqui!"});
 
 		getNearbyPlaces();
 	}
@@ -35,23 +38,39 @@ app.controller('homeController', function($scope, $http, util){
 
 	function getNearbyPlaces()
 	{
-		var uri = util.nearbyApi+'&location='+$scope.model.lat+','+$scope.model.lon+'&radius=1000';
-		
-		return $http({
-			method: 'GET',
-			url: uri,
-			headers:{
-				
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
+		var service = new google.maps.places.PlacesService($scope.map);
+		var request = {
+			location: new google.maps.LatLng($scope.model.lat, $scope.model.lon),
+			radius: '100000',
+			name: 'Quadra de Futebol'
+		};
+
+		service.nearbySearch(request, callback);
+	}
+
+	function callback(results, status) {
+		console.log('status : ' + status);
+		console.dir(results);
+		if (status == google.maps.places.PlacesServiceStatus.OK) {
+			for (var i = 0; i < results.length; i++) {
+				var place = results[i];
+				createMarker(results[i]);
 			}
-		}).success(function(status){
-			console.log(status);
+		}
+	}
+
+	function createMarker(place) {
+
+		var placeLoc = place.geometry.location;
+		var marker = new google.maps.Marker({
+			map: $scope.map,
+			position: place.geometry.location
 		});
 
-		// return $http.get(uri, {headers: {'Access-Control-Allow-Origin': '*'}}).then(function(data){
-		// 	console.log(data);
-		// });
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(place.name);
+			infowindow.open($scope.map, this);
+		});
 	}
 
 });
